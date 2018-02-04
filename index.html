@@ -1,0 +1,82 @@
+<html>
+	<body>
+		<canvas id='game1' width = 300 height= 300></canvas>
+	</body>
+<script>
+	let screen = document.getElementById('game1')
+	screen.style.backgroundColor = 'blue'
+	let  pen = screen.getContext('2d')
+	let box = {x:50 ,y:50 ,w:25 ,h:25 ,
+		col:'red',
+		speed: 2,dir:'r'
+	}
+	let box2 = {x:50 ,y:50 ,w:25 ,h:25 ,col:'black'}
+	function drawRect(pen,obj){
+		pen.fillStyle = obj.col
+		pen.fillRect(obj.x,obj.y,obj.w,obj.h)
+	}
+	function draw(){
+		pen.clearRect(0,0,300,300)
+		drawRect(pen,box)
+		drawRect(pen,box2)
+	}
+	function updatebox(){
+		if(box.x == 0 & box.x == 300-25 ){
+			box.x=275
+			box.speed=0
+		}
+		switch(box.dir){
+			case 'l':
+				box.x = box.x -box.speed
+			break;
+			case 'r':
+				box.x = box.x +box.speed
+			 break;
+			case 'u': 
+				box.y = box.y -box.speed 
+			break;
+			case 'd': 
+				box.y = box.y +box.speed 
+			break;
+		}
+//		box.speed=0;
+	}
+	function update(){
+		
+		updatebox();
+		
+		draw()
+		window.requestAnimationFrame(update)
+	}
+	function toggleBoxMove(){
+		if(box.speed==0)
+			box.speed=2
+		else
+			box.speed=0
+	}
+	window.onkeydown = function (event){
+		switch(event.keyCode){
+			case 37 : box.dir = 'l' ;
+						box.speed=2; 
+				break;
+			case 38 : box.dir = 'u' ;
+						box.speed=2;
+				break;
+			case 39 : box.dir = 'r'; 
+						box.speed=2;
+				break;
+			case 40 : box.dir = 'd'; 
+						box.speed=2; 
+				break;
+			case 32 : toggleBoxMove(); 
+				break;
+		}
+	}
+	function boundry(){
+		if(box.x ==300-25)
+			box.speed=0
+
+	}
+	update();
+</script>
+</html>
